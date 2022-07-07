@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform _platformPlacementSpot;
     [SerializeField] private TriggerEventsSender _triggerEventsSender;
     [SerializeField] private Joystick _joystick;
+    [SerializeField] private RigidBodyStabilizer _rigidBodyStabilizer;
     private float _inventoryPlatformSideShift = 0.45f;
     private float _inventoryPlatformUpShift = 0.15f;
 
@@ -51,8 +52,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isGrounded)
+        if (_isGrounded && _rigidbody.velocity.magnitude < 10f)
+        {
             _rigidbody.AddForce(-transform.forward * _playerSpeed * Time.deltaTime);
+            _rigidBodyStabilizer.Off();
+        }
+        else
+        {
+            _rigidBodyStabilizer.On();
+        }
     }
 
     private void OnCollisionExit(Collision other)
