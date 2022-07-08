@@ -6,14 +6,21 @@ public class PathSpawner : MonoBehaviour
 {
     [SerializeField] private float _maxSpawnDistance;
     [SerializeField] private float _distanceBetweenPlatforms = 0.25f;
-    [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private Joystick _joystick;
+    private Joystick _joystick;
+    private PlayerMovement _playerMovement;
     private bool IsJoystickPressed => _joystick.transform.GetChild(0).gameObject.activeInHierarchy;
     private bool isSpawning;
 
+    [Zenject.Inject]
+    public void Construct(PlayerMovement playerMovement, Joystick joystick)
+    {
+        _playerMovement = playerMovement;
+        _joystick = joystick;
+    }
+
     void Update()
     {
-        if (IsJoystickPressed && !isSpawning && _playerMovement.inventoryTransform.childCount > 0)
+        if (IsJoystickPressed && !isSpawning && _playerMovement.inventory.CurrentPlatformsCount > 0)
         {
             isSpawning = true;
             StartCoroutine(SpawnPlatforms());
@@ -59,12 +66,13 @@ public class PathSpawner : MonoBehaviour
 
     public Transform GetPlatformFromInventory(PlayerMovement playerMovement)
     {
-        if (playerMovement.inventoryTransform.childCount == 0) return null;
-        Transform plTransf = playerMovement.inventoryTransform.GetChild(playerMovement.inventoryTransform.childCount - 1);
+        if (playerMovement.inventory.CurrentPlatformsCount == 0) return null;
+        Platform platform = playerMovement.inventory.GetPlatform();
+        Transform plTransf = platform.transform;
         plTransf.SetParent(null, false);
         //plTransf.position = _platformPlacementSpot.position;
         plTransf.GetComponent<Collider>().isTrigger = false;
-        plTransf.GetComponent<Platform>().platformState = PlatformState.PLACED;
+        platform.platformState = PlatformState.PLACED;
         return plTransf;
     }
 }
