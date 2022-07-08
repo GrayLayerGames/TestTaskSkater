@@ -35,13 +35,13 @@ public class LevelManager : MonoBehaviour
     public void PlayerDies(string comment = "")
     {
         ActivateGameplay(false);
-        Debug.Log(comment);
+        _uiManager.ShowLoseWindow(comment);
     }
 
     public void LevelComplete()
     {
         ActivateGameplay(false);
-        // TODO: Show win dialogue
+        _uiManager.ShowWinWindow();
     }
 
 
