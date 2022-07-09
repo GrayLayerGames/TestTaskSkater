@@ -18,7 +18,7 @@ public class TapToStart : MonoBehaviour
         _tapArea.onClick.AddListener(() =>
         {
             _levelManager.ActivateGameplay(true);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         });
     }
 

@@ -23,7 +23,7 @@ public class WinWindow : MonoBehaviour
     {
         _view.SetActive(true);
         _window.DOScale(1f, 0.5f).From(0f).SetId(this);
-        string nextSceneName = "GameScene" + ((SceneManager.GetActiveScene().buildIndex % _scenesCount) + 2);
+        string nextSceneName = "GameScene" + (((SceneManager.GetActiveScene().buildIndex + 1) % _scenesCount) + 1);
         Debug.Log(nextSceneName);
         _showAdsButton.onClick.AddListener(() =>
         {
