@@ -34,7 +34,6 @@ public class LevelManager : MonoBehaviour
     public void PlayerDies(string comment = "")
     {
         if (isLost) return;
-        Debug.Log("Lose: " + comment);
         isLost = true;
         ActivateGameplay(false);
         _uiManager.ShowLoseWindow(comment);

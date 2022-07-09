@@ -23,12 +23,14 @@ public class WinWindow : MonoBehaviour
     {
         _view.SetActive(true);
         _window.DOScale(1f, 0.5f).From(0f).SetId(this);
+        string nextSceneName = "GameScene" + ((SceneManager.GetActiveScene().buildIndex % _scenesCount) + 2);
+        Debug.Log(nextSceneName);
         _showAdsButton.onClick.AddListener(() =>
         {
             _uiManager.adsController.ShowAds();
-            _uiManager.adsController.OnVideoEnds += () => { SceneManager.LoadScene("GameScene" + ((SceneManager.GetActiveScene().buildIndex % _scenesCount) + 1)); };
+            _uiManager.adsController.OnVideoEnds += () => { SceneManager.LoadScene(nextSceneName); };
         });
-        _skipAdsButton.onClick.AddListener(() => SceneManager.LoadScene("GameScene2"));
+        _skipAdsButton.onClick.AddListener(() => SceneManager.LoadScene(nextSceneName));
     }
 
     private void OnDestroy()
