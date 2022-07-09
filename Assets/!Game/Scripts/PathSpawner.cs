@@ -6,6 +6,7 @@ public class PathSpawner : MonoBehaviour
 {
     [SerializeField] private float _maxSpawnDistance;
     [SerializeField] private float _distanceBetweenPlatforms = 0.25f;
+    [SerializeField] private int _instantCount = 5;
     private Joystick _joystick;
     private PlayerMovement _playerMovement;
     private bool IsJoystickPressed => _joystick.transform.GetChild(0).gameObject.activeInHierarchy;
@@ -37,6 +38,7 @@ public class PathSpawner : MonoBehaviour
         _playerMovement.Jump();
         Vector3 spawnPos = _playerMovement._platformPlacementSpot.position;
         Vector3? prevSpawnPos = null;
+        int instantCount = _instantCount;
         while (true)
         {
             if (Vector3.Distance(_playerMovement.transform.position, spawnPos) < _maxSpawnDistance)
@@ -59,7 +61,10 @@ public class PathSpawner : MonoBehaviour
                 spawnPos.z -= _distanceBetweenPlatforms;
                 spawnPos.y += _joystick.Direction.y / 10f;
             }
-            yield return new WaitForEndOfFrame();
+            if (instantCount <= 0)
+                yield return new WaitForEndOfFrame();
+            else
+                instantCount--;
         }
 
     }

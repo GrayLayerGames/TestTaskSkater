@@ -10,6 +10,7 @@ public class WinWindow : MonoBehaviour
     [SerializeField] private GameObject _view;
     [SerializeField] private Transform _window;
     [SerializeField] private Button _showAdsButton;
+    [SerializeField] private Button _skipAdsButton;
     private UIManager _uiManager;
 
     [Zenject.Inject]
@@ -23,9 +24,15 @@ public class WinWindow : MonoBehaviour
         _window.DOScale(1f, 0.5f).From(0f).SetId(this);
         _showAdsButton.onClick.AddListener(() =>
         {
-            _showAdsButton.onClick.RemoveAllListeners();
             _uiManager.adsController.ShowAds();
             _uiManager.adsController.OnVideoEnds += () => { SceneManager.LoadScene("GameScene2"); };
         });
+        _skipAdsButton.onClick.AddListener(() => SceneManager.LoadScene("GameScene2"));
+    }
+
+    private void OnDestroy()
+    {
+        _showAdsButton.onClick.RemoveAllListeners();
+        _skipAdsButton.onClick.RemoveAllListeners();
     }
 }

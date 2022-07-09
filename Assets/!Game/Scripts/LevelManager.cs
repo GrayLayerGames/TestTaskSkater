@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     public float DistanceToFinish => Vector3.Distance(_playerMovement.transform.position, _finish.transform.position);
     public float DistanceToFinishNormalized => DistanceToFinish / DistanceToFinishFromStart;
     public float DistanceToFinishFromStart { get; private set; }
+    private bool isLost;
     [SerializeField] private Finish _finish;
     private PlayerMovement _playerMovement;
     private PathSpawner _pathSpawner;
@@ -24,16 +25,17 @@ public class LevelManager : MonoBehaviour
         _uiManager = uiManager;
     }
 
-    private async void Start()
+    private void Start()
     {
         DistanceToFinishFromStart = DistanceToFinish;
         ActivateGameplay(false);
-        await _uiManager.StartCountdownAsync(3);
-        ActivateGameplay(true);
     }
 
     public void PlayerDies(string comment = "")
     {
+        if (isLost) return;
+        Debug.Log("Lose: " + comment);
+        isLost = true;
         ActivateGameplay(false);
         _uiManager.ShowLoseWindow(comment);
     }

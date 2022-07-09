@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PlayerFigureCollider : MonoBehaviour
 {
-    private PlayerMovement _playerMovement;
+    private LevelManager _levelManager;
 
     [Zenject.Inject]
-    public void Construct(PlayerMovement playerMovement)
+    public void Construct(LevelManager levelManager)
     {
-        _playerMovement = playerMovement;
+        _levelManager = levelManager;
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
+        _levelManager.PlayerDies("You hit something)");
     }
 }

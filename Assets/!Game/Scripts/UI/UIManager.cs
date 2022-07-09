@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private CountDown _countDown;
+    [SerializeField] private TapToStart _tapToStart;
     [SerializeField] private Scrollbar _distanceScroll;
     [SerializeField] private WinWindow _winWindow;
     [SerializeField] private LoseWindow _loseWindow;
@@ -19,8 +19,10 @@ public class UIManager : MonoBehaviour
     {
         _levelManager = levelManager;
     }
-
-    public async Task StartCountdownAsync(float seconds) => await _countDown.WaitForSecondsAsync(seconds);
+    private void Start()
+    {
+        _tapToStart.gameObject.SetActive(true);
+    }
     public void ShowWinWindow() => _winWindow.Show();
     public void ShowLoseWindow(string message) => _loseWindow.Show(message);
     private void Update()
