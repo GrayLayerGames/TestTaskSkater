@@ -11,6 +11,7 @@ public class WinWindow : MonoBehaviour
     [SerializeField] private Transform _window;
     [SerializeField] private Button _showAdsButton;
     [SerializeField] private Button _skipAdsButton;
+    private int _scenesCount = 3;
     private UIManager _uiManager;
 
     [Zenject.Inject]
@@ -25,7 +26,7 @@ public class WinWindow : MonoBehaviour
         _showAdsButton.onClick.AddListener(() =>
         {
             _uiManager.adsController.ShowAds();
-            _uiManager.adsController.OnVideoEnds += () => { SceneManager.LoadScene("GameScene2"); };
+            _uiManager.adsController.OnVideoEnds += () => { SceneManager.LoadScene("GameScene" + ((SceneManager.GetActiveScene().buildIndex % _scenesCount) + 1)); };
         });
         _skipAdsButton.onClick.AddListener(() => SceneManager.LoadScene("GameScene2"));
     }

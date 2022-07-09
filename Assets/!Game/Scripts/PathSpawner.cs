@@ -35,7 +35,6 @@ public class PathSpawner : MonoBehaviour
 
     private IEnumerator SpawnPlatforms()
     {
-        _playerMovement.Jump();
         Vector3 spawnPos = _playerMovement._platformPlacementSpot.position;
         Vector3? prevSpawnPos = null;
         int instantCount = _instantCount;
